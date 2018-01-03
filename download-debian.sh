@@ -24,7 +24,7 @@ wget --quiet -O Release "$DISTRIBUTION"/Release
 #echo >> Release
 
 if ! gpg --no-default-keyring --keyring /usr/share/keyrings/debian-archive-keyring.gpg --verify Release.gpg Release 2>&1 | fgrep 'gpg: Good signature from "Debian Archive Automatic Signing Key (7.0/wheezy) <ftpmaster@debian.org>"' ; then
-	echo "GPG check failed!"
+	echo "GPG check failed!" >&2
 	exit 1
 fi
 
@@ -38,7 +38,7 @@ wget --quiet -O SHA256SUMS "$DISTRIBUTION/$path_sha256sums"
 #echo >> SHA256SUMS
 
 if ! sha256sum -c - <<< "$sha_sha256sums SHA256SUMS" ; then
-	echo "sha256 check of SHA256SUMS file failed!"
+	echo "sha256 check of SHA256SUMS file failed!" >&2
 	exit 1
 fi
 
@@ -54,7 +54,7 @@ wget --quiet -O mini.iso.tmp "$DISTRIBUTION"/main/installer-amd64/current/images
 # Uncomment this to test hash verification:
 #echo >> mini.iso.tmp
 if ! sha256sum -c - <<< "$sha_iso mini.iso.tmp" ; then
-	echo "sha256 check of mini.iso file failed! Keeping .tmp file!"
+	echo "sha256 check of mini.iso file failed! Keeping .tmp file!" >&2
 	exit 1
 fi
 mv mini.iso.tmp mini.iso
@@ -63,7 +63,7 @@ wget --quiet -O graphical-mini.iso.tmp "$DISTRIBUTION"/main/installer-amd64/curr
 # Uncomment this to test hash verification:
 #echo >> graphical-mini.iso.tmp
 if ! sha256sum -c - <<< "$sha_graphical_iso graphical-mini.iso.tmp" ; then
-	echo "sha256 check of graphical-mini.iso file failed! Keeping .tmp to file!"
+	echo "sha256 check of graphical-mini.iso file failed! Keeping .tmp to file!" >&2
 	exit 1
 fi
 mv graphical-mini.iso.tmp graphical-mini.iso
