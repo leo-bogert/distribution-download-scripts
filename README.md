@@ -29,6 +29,12 @@ git verify-tag "$(git describe)"
 # Signature files are kept in that directory as well for debugging purposes.
 ```
 
+Cron-friendly command line:
+```shell
+# The script will print error messages on stderr so you can redirect stdout to /dev/null.
+cd TARGET_DIRECTORY_FOR_DOWNLOAD && SCRIPT_LOCATION/download-debian.sh > /dev/null
+```
+
 # Ubuntu ISO download script
 
 Will ship as soon as I am in the mood to commit it, or sooner if you ask me :)
