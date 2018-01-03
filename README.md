@@ -22,6 +22,5 @@ git clone https://github.com/leo-bogert/distribution-download-scripts.git
 cd distribution-download-scripts
 # Verify the signature of the most recent tag
 git verify-tag "$(git describe)"
-# Download Debian. WARNING: This won't delete the ISO if the signature didn't match! Read the output!
 ./download-debian.sh
 ```
