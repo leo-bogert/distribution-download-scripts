@@ -1,6 +1,7 @@
 # Linux distribution download scripts
 
-These Bash scripts download the x86_64 installer ISOs of various distributions in a secure way.
+These Bash scripts download the x86_64 installer ISOs of various distributions in a secure way:
+- The ISO is renamed if the signature is invalid to allow using the script in cronjobs.
 
 Text mode network installers aka mini ISOs are preferred where available.
 

@@ -12,7 +12,7 @@ shopt -s failglob
 DISTRIBUTION="http://ftp.debian.org/debian/dists/stretch"
 
 echo "Deleting old download..."
-rm -f Release.gpg Release SHA256SUMS mini.iso graphical-mini.iso
+rm -f Release.gpg Release SHA256SUMS mini.iso graphical-mini.iso mini.iso.INVALID graphical-mini.iso.INVALID
 
 echo "Downloading GPG signature..."
 wget --quiet -O Release.gpg "$DISTRIBUTION"/Release.gpg
@@ -45,19 +45,38 @@ echo "Expecting checksum for mini.iso: $sha_iso"
 echo "Expecting checksum for graphical-mini.iso: $sha_graphical_iso"
 
 echo "Downloading ISOs..."
-wget --quiet -O mini.iso  "$DISTRIBUTION"/main/installer-amd64/current/images/netboot/mini.iso
-wget --quiet -O graphical-mini.iso "$DISTRIBUTION"/main/installer-amd64/current/images/netboot/gtk/mini.iso
-# Uncomment this to test hash verification:
-#echo >> mini.iso
-#echo >> graphical-mini.iso
 
-if ! sha256sum -c - <<< "$sha_iso mini.iso" ; then
-	echo "sha256 check of mini.iso file failed!"
+if ! wget --quiet -O mini.iso "$DISTRIBUTION"/main/installer-amd64/current/images/netboot/mini.iso ; then
+	# Delete the file to ensure an attacker cannot terminate the network connection after delivering a malicious ISO to bypass hash validation:
+	# Users might use this script in cronjobs and not test its exit code.
+	rm -f mini.iso
+	echo "Download of mini.iso failed!"
 	exit 1
 fi
 
+# Uncomment this to test hash verification:
+#echo >> mini.iso
+
+if ! sha256sum -c - <<< "$sha_iso mini.iso" ; then
+	mv mini.iso mini.iso.INVALID
+	echo "sha256 check of mini.iso file failed! Added .INVALID to filename!"
+	exit 1
+fi
+
+if ! wget --quiet -O graphical-mini.iso "$DISTRIBUTION"/main/installer-amd64/current/images/netboot/gtk/mini.iso ; then
+	# Delete the file to ensure an attacker cannot terminate the network connection after delivering a malicious ISO to bypass hash validation:
+	# Users might use this script in cronjobs and not test its exit code.
+	rm -f graphical-mini.iso
+	echo "Download of graphical-mini.iso failed!"
+	exit 1
+fi
+
+# Uncomment this to test hash verification:
+#echo >> graphical-mini.iso
+
 if ! sha256sum -c - <<< "$sha_graphical_iso graphical-mini.iso" ; then
-	echo "sha256 check of graphical-mini.iso file failed!"
+	mv graphical-mini.iso graphical-mini.iso.INVALID
+	echo "sha256 check of graphical-mini.iso file failed! Added .INVALID to filename!"
 	exit 1
 fi
 
