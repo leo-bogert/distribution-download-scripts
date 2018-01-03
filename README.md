@@ -10,7 +10,7 @@ Network installers are better than regular ones because they download all packag
 
 Full / graphical ISOs are used otherwise.
 
-# Debian
+# Debian ISO download script
 
 Downloads the Debian 9 (stretch) network installer mini ISO, both in the text mode and graphical (gtk) version.
 
