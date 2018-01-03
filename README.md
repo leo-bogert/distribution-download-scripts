@@ -6,6 +6,7 @@ These Bash scripts download the x86_64 installer ISOs of various distributions i
 - Deletes previously downloaded files before downloading new ones.
 
 Text mode network installers aka mini ISOs are preferred where available.
+Network installers are better than regular ones because they download all packages from the Internet so the system is fully up to date after installation.
 
 Full / graphical ISOs are used otherwise.
 
