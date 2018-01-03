@@ -28,3 +28,7 @@ git verify-tag "$(git describe)"
 # Output = "debian/mini.iso" and "debian/graphical-mini.iso".
 # Signature files are kept in that directory as well for debugging purposes.
 ```
+
+# Ubuntu ISO download script
+
+Will ship as soon as I am in the mood to commit it, or sooner if you ask me :)
