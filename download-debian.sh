@@ -1,4 +1,5 @@
 #!/bin/bash
+# Generic bash options which I always use for safety.
 set -o nounset
 # The system's debian-archive-keyring.gpg doesn't always contain all the keys which signed the Release.gpg so GPG sometimes returns non-zero exit code while we pipe it into fgrep to check for a valid signature.
 # set -o pipefail
