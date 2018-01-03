@@ -15,6 +15,8 @@ Downloads the Debian 9 (stretch) network installer mini ISO, both in the text mo
 
 Usage:
 ```shell
+# Install dependencies
+sudo apt install bash wget gnupg debian-archive-keyring
 # Download my GnuPG key to verify the signature on this repository.
 gpg --recv-key "1517 3ECB BC72 0C9E F420  5805 B26B E43E 4B5E AD69"
 # Download the repository
