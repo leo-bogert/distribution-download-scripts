@@ -1,7 +1,9 @@
 # Linux distribution download scripts
 
 These Bash scripts download the x86_64 installer ISOs of various distributions in a secure way:
+- The GnuPG signature is validated - which is complex enough to justify the existence of this script for distributions such as Debian: The signature there signs a "Release" file, which contains the hash for a SHA256SUMS file, which contains the hash for the ISO. This chain of trust is validated by the script.
 - The ISO is renamed if the signature is invalid to allow using the script in cronjobs.
+- Deletes previously downloaded files before downloading new ones.
 
 Text mode network installers aka mini ISOs are preferred where available.
 
