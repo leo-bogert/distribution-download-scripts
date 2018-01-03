@@ -2,7 +2,7 @@
 
 These Bash scripts download the x86_64 installer ISOs of various distributions in a secure way:
 - The GnuPG signature is validated - which is complex enough to justify the existence of this script for distributions such as Debian: The signature there signs a "Release" file, which contains the hash for a SHA256SUMS file, which contains the hash for the ISO. This chain of trust is validated by the script.
-- The ISO is renamed if the signature is invalid to allow using the script in cronjobs.
+- The ISO is downloaded to a temporary filename and only renamed to .iso if the signature is valid. This ensures the script is safe to run in cronjobs, and even is safe against power loss during download: There will either be a valid ISO file or none.
 - Deletes previously downloaded files before downloading new ones.
 
 Text mode network installers aka mini ISOs are preferred where available.

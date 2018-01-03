@@ -15,7 +15,7 @@ mkdir -p debian
 cd debian
 
 echo "Deleting old download..."
-rm -f Release.gpg Release SHA256SUMS mini.iso graphical-mini.iso mini.iso.INVALID graphical-mini.iso.INVALID
+rm -f Release.gpg Release SHA256SUMS mini.iso graphical-mini.iso mini.iso.tmp graphical-mini.iso.tmp
 
 echo "Downloading Release file and checking its GPG signature..."
 wget --quiet -O Release.gpg "$DISTRIBUTION"/Release.gpg
@@ -49,39 +49,24 @@ echo "Expecting checksum for graphical-mini.iso: $sha_graphical_iso"
 
 echo "Downloading ISOs and checking their sha256sums..."
 
-if ! wget --quiet -O mini.iso "$DISTRIBUTION"/main/installer-amd64/current/images/netboot/mini.iso ; then
-	# Delete the file to ensure an attacker cannot terminate the network connection after delivering a malicious ISO to bypass hash validation:
-	# Users might use this script in cronjobs and not test its exit code.
-	rm -f mini.iso
-	echo "Download of mini.iso failed!"
-	exit 1
-fi
-
+# Download to ".tmp" file to ensure no matter how the script crashes (e.g. power loss) the user can never run into an unvalidated .iso file.
+wget --quiet -O mini.iso.tmp "$DISTRIBUTION"/main/installer-amd64/current/images/netboot/mini.iso
 # Uncomment this to test hash verification:
-#echo >> mini.iso
-
-if ! sha256sum -c - <<< "$sha_iso mini.iso" ; then
-	mv mini.iso mini.iso.INVALID
-	echo "sha256 check of mini.iso file failed! Added .INVALID to filename!"
+#echo >> mini.iso.tmp
+if ! sha256sum -c - <<< "$sha_iso mini.iso.tmp" ; then
+	echo "sha256 check of mini.iso file failed! Keeping .tmp file!"
 	exit 1
 fi
+mv mini.iso.tmp mini.iso
 
-if ! wget --quiet -O graphical-mini.iso "$DISTRIBUTION"/main/installer-amd64/current/images/netboot/gtk/mini.iso ; then
-	# Delete the file to ensure an attacker cannot terminate the network connection after delivering a malicious ISO to bypass hash validation:
-	# Users might use this script in cronjobs and not test its exit code.
-	rm -f graphical-mini.iso
-	echo "Download of graphical-mini.iso failed!"
-	exit 1
-fi
-
+wget --quiet -O graphical-mini.iso.tmp "$DISTRIBUTION"/main/installer-amd64/current/images/netboot/gtk/mini.iso
 # Uncomment this to test hash verification:
-#echo >> graphical-mini.iso
-
-if ! sha256sum -c - <<< "$sha_graphical_iso graphical-mini.iso" ; then
-	mv graphical-mini.iso graphical-mini.iso.INVALID
-	echo "sha256 check of graphical-mini.iso file failed! Added .INVALID to filename!"
+#echo >> graphical-mini.iso.tmp
+if ! sha256sum -c - <<< "$sha_graphical_iso graphical-mini.iso.tmp" ; then
+	echo "sha256 check of graphical-mini.iso file failed! Keeping .tmp to file!"
 	exit 1
 fi
+mv graphical-mini.iso.tmp graphical-mini.iso
 
 echo
 echo "Finished:"
