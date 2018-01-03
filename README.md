@@ -1,4 +1,4 @@
-# Linux distribution download scripts
+# Linux / BSD distribution download scripts
 
 These Bash scripts download the x86_64 installer ISOs of various distributions in a secure way:
 - The GnuPG signature is validated - which is complex enough to justify the existence of this script for distributions such as Debian: The signature there signs a "Release" file, which contains the hash for a SHA256SUMS file, which contains the hash for the ISO. This chain of trust is validated by the script.
@@ -30,5 +30,13 @@ git verify-tag "$(git describe)"
 ```
 
 # Ubuntu ISO download script
+
+Will ship as soon as I am in the mood to commit it, or sooner if you ask me :)
+
+# Kali Linux ISO download script
+
+Will ship as soon as I am in the mood to commit it, or sooner if you ask me :)
+
+# FreeBSD ISO download script
 
 Will ship as soon as I am in the mood to commit it, or sooner if you ask me :)
