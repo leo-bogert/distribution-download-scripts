@@ -11,6 +11,9 @@ shopt -s failglob
 # Debian 9 (stretch)
 DISTRIBUTION="http://ftp.debian.org/debian/dists/stretch"
 
+mkdir -p debian
+cd debian
+
 echo "Deleting old download..."
 rm -f Release.gpg Release SHA256SUMS mini.iso graphical-mini.iso mini.iso.INVALID graphical-mini.iso.INVALID
 

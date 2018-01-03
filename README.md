@@ -24,4 +24,6 @@ cd distribution-download-scripts
 # Verify my signature of the most recent tag
 git verify-tag "$(git describe)"
 ./download-debian.sh
+# Output = "debian/mini.iso" and "debian/graphical-mini.iso".
+# Signature files are kept in that directory as well for debugging purposes.
 ```
