@@ -17,7 +17,7 @@ cd debian
 echo "Deleting old download..."
 rm -f Release.gpg Release SHA256SUMS mini.iso graphical-mini.iso mini.iso.INVALID graphical-mini.iso.INVALID
 
-echo "Downloading GPG signature..."
+echo "Downloading Release file and checking its GPG signature..."
 wget --quiet -O Release.gpg "$DISTRIBUTION"/Release.gpg
 wget --quiet -O Release "$DISTRIBUTION"/Release
 # Uncomment this to test signature verification:
@@ -32,7 +32,7 @@ path_sha256sums="main/installer-amd64/current/images/SHA256SUMS"
 sha_sha256sums="$(fgrep "$path_sha256sums" Release | tail -1 | cut -d' ' -f2)"
 echo "Expecting checksum for SHA256SUMS: $sha_sha256sums"
 
-echo "Downloading SHA256SUMS..."
+echo "Downloading SHA256SUMS and checking its sha256sum..."
 wget --quiet -O SHA256SUMS "$DISTRIBUTION/$path_sha256sums"
 # Uncomment this to test hash verification:
 #echo >> SHA256SUMS
@@ -47,7 +47,7 @@ sha_graphical_iso="$(fgrep ./netboot/gtk/mini.iso SHA256SUMS | cut -d' ' -f1)"
 echo "Expecting checksum for mini.iso: $sha_iso"
 echo "Expecting checksum for graphical-mini.iso: $sha_graphical_iso"
 
-echo "Downloading ISOs..."
+echo "Downloading ISOs and checking their sha256sums..."
 
 if ! wget --quiet -O mini.iso "$DISTRIBUTION"/main/installer-amd64/current/images/netboot/mini.iso ; then
 	# Delete the file to ensure an attacker cannot terminate the network connection after delivering a malicious ISO to bypass hash validation:
